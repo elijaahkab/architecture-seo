@@ -11,6 +11,7 @@ function render() {
   renderClusters();
   renderTable();
   updateStats();
+  renderTree();
 }
 
 /* ── SIDEBAR ─────────────────────────────────────────────── */

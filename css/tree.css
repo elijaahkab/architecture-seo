@@ -1,0 +1,429 @@
+/* =============================================================
+   Architecture SEO — Cluster Santé TNS
+   css/tree.css  —  Section "Arborescence structurelle"
+   ============================================================= */
+
+/* ── SECTION WRAPPER ─────────────────────────────────────── */
+.tree-section-wrapper {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 2px solid var(--border);
+}
+
+/* ── HEADER DE SECTION (cohérent avec .section-title) ───── */
+.tree-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tree-section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tree-section-title::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── ACTIONS ─────────────────────────────────────────────── */
+.tree-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tree-action-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .05em;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.tree-action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(58,92,245,.05);
+}
+.tree-action-btn.reset:hover {
+  border-color: var(--accent4);
+  color: var(--accent4);
+  background: rgba(232,69,69,.05);
+}
+.tree-action-btn.export-pdf:hover {
+  border-color: #e84545;
+  color: #e84545;
+  background: rgba(232,69,69,.05);
+}
+.tree-action-btn.export-docx:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: rgba(37,99,235,.05);
+}
+
+/* ── CARTE CONTENANT L'ARBORESCENCE ─────────────────────── */
+.tree-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── TOPBAR ──────────────────────────────────────────────── */
+.tree-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.tree-topbar-dots { display: flex; gap: 6px; }
+.tree-topbar-dot  {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.tree-topbar-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── LAYOUT INTERNE (arbre + légende) ────────────────────── */
+.tree-inner {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 0;
+  min-height: 200px;
+}
+
+/* ── ZONE ARBORESCENCE ───────────────────────────────────── */
+.tree-body {
+  padding: 28px 28px 32px;
+  overflow-x: auto;
+  border-right: 1px solid var(--border);
+}
+
+/* ── RACINE ──────────────────────────────────────────────── */
+.tree-root {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 480px;
+}
+
+/* ── BADGES (labels éditables) ───────────────────────────── */
+.tree-badge {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: text;
+  outline: none;
+  transition: box-shadow .15s;
+  white-space: nowrap;
+}
+.tree-badge:hover  { box-shadow: 0 0 0 2px var(--border); }
+.tree-badge:focus  { box-shadow: 0 0 0 2px var(--accent); }
+
+.tree-badge-hub {
+  background: rgba(58,92,245,.12);
+  color: #3a5cf5;
+  border: 1px solid rgba(58,92,245,.3);
+}
+body.dark .tree-badge-hub {
+  background: rgba(79,110,247,.18);
+  color: #4f6ef7;
+  border-color: rgba(79,110,247,.35);
+}
+
+.tree-badge-mere {
+  background: rgba(39,174,114,.12);
+  color: #27ae72;
+  border: 1px solid rgba(39,174,114,.3);
+}
+body.dark .tree-badge-mere {
+  background: rgba(126,212,160,.15);
+  color: #7ed4a0;
+  border-color: rgba(126,212,160,.3);
+}
+
+/* ── NŒUDS ───────────────────────────────────────────────── */
+.tree-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tree-level-hub   { margin-bottom: 2px; }
+.tree-level-mere  { margin-bottom: 2px; }
+.tree-level-cluster { margin-bottom: 2px; }
+
+/* ── TEXTE URL ───────────────────────────────────────────── */
+.tree-url {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .15s;
+  line-height: 1.6;
+}
+.tree-url:hover { color: var(--accent); text-decoration: underline; }
+.tree-url-page {
+  color: var(--text-muted);
+}
+.tree-url-page:hover { color: var(--accent); }
+
+/* ── COMPTEUR DE PAGES ───────────────────────────────────── */
+.tree-pages-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-left: 4px;
+}
+
+/* ── LIGNES DE CONNEXION ─────────────────────────────────── */
+.tree-branch-v {
+  height: 14px;
+  width: 16px;
+  border-left: 1px solid var(--text-dim);
+  margin-left: 8px;
+  opacity: .5;
+}
+
+.tree-branch-v-indent {
+  height: 14px;
+  width: 16px;
+  border-left: 1px solid var(--text-dim);
+  margin-left: 8px;
+  opacity: .5;
+}
+
+.tree-connector-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2px;
+}
+
+.tree-branch-h-short {
+  width: 20px;
+  height: 10px;
+  border-bottom: 1px solid var(--text-dim);
+  border-left: 1px solid var(--text-dim);
+  margin-left: 8px;
+  border-bottom-left-radius: 2px;
+  opacity: .5;
+  flex-shrink: 0;
+}
+
+.tree-branch-indent {
+  width: 28px;
+  flex-shrink: 0;
+  opacity: .5;
+}
+
+/* ── LIGNES CLUSTERS ET PAGES ────────────────────────────── */
+.tree-cluster-row,
+.tree-page-row,
+.tree-cluster-spacer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.9;
+}
+
+.tree-indent-deep {
+  width: 64px;
+  flex-shrink: 0;
+}
+
+.tree-branch-char {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  opacity: .7;
+}
+
+.tree-branch-char-sm {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  opacity: .6;
+}
+
+.tree-vline-char {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  width: 28px;
+  flex-shrink: 0;
+  opacity: .5;
+}
+
+.tree-cluster-spacer {
+  height: 8px;
+  line-height: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+  opacity: .5;
+  align-items: flex-end;
+  padding-bottom: 2px;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.tree-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tree-footer-info {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: .05em;
+}
+.tree-footer-hint {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── LÉGENDE ─────────────────────────────────────────────── */
+.tree-legend {
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--surface2);
+}
+
+.tree-legend-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tree-legend-section {
+  margin-bottom: 18px;
+}
+
+.tree-legend-section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.tree-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.tree-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tree-legend-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 155px;
+}
+
+.tree-legend-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0;
+}
+
+.tree-legend-stats {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.tree-legend-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.tree-legend-stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .06em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.tree-legend-stat-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────────── */
+.tree-body::-webkit-scrollbar { height: 4px; }
+.tree-body::-webkit-scrollbar-track { background: transparent; }
+.tree-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.tree-body::-webkit-scrollbar-thumb:hover { background: var(--accent); }

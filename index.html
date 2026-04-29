@@ -12,6 +12,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/tree.css">
   <link rel="stylesheet" href="css/sheets.css">
 
   <style>
@@ -176,6 +177,56 @@
       </div>
 
 
+
+      <!-- ═══════════════════════════════════════════════════
+           SECTION ARBORESCENCE STRUCTURELLE
+           ═══════════════════════════════════════════════════ -->
+      <div class="tree-section-wrapper">
+
+        <!-- En-tête cohérent avec les autres sections -->
+        <div class="tree-section-header">
+          <div class="tree-section-title">Arborescence structurelle</div>
+          <div class="tree-actions">
+            <button class="tree-action-btn reset" onclick="resetTree()">↺ Réinitialiser</button>
+            <button class="tree-action-btn export-pdf" onclick="exportTreePDF()">↓ PDF</button>
+            <button class="tree-action-btn export-docx" id="btn-export-docx" onclick="exportTreeDOCX()">↓ Word (.docx)</button>
+          </div>
+        </div>
+
+        <!-- Carte principale -->
+        <div class="tree-card">
+
+          <!-- Topbar style terminal -->
+          <div class="tree-topbar">
+            <div class="tree-topbar-dots">
+              <div class="tree-topbar-dot" style="background:#ff5f57"></div>
+              <div class="tree-topbar-dot" style="background:#febc2e"></div>
+              <div class="tree-topbar-dot" style="background:#28c840"></div>
+            </div>
+            <span class="tree-topbar-label">Arborescence — Cluster Santé TNS</span>
+          </div>
+
+          <!-- Corps : arborescence + légende -->
+          <div class="tree-inner">
+            <div class="tree-body">
+              <div id="tree-container">
+                <!-- Rendu dynamique par renderTree() -->
+              </div>
+            </div>
+            <div class="tree-legend" id="tree-legend">
+              <!-- Rendu dynamique par renderTreeLegend() -->
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="tree-footer">
+            <span class="tree-footer-info" id="tree-footer-info">Structure hiérarchique générée depuis les données de l'application</span>
+            <span class="tree-footer-hint">✎ Cliquez sur un badge coloré pour modifier son texte</span>
+          </div>
+        </div>
+
+      </div>
+
       <!-- SECTION TABLEAU DE GESTION DU MAILLAGE — iFrame -->
       <div class="sheets-section-wrapper">
         <div class="sheets-hero">
@@ -187,7 +238,7 @@
                     title="Cliquez pour modifier le titre">Tableau de gestion du maillage interne</span>
               <span class="sheets-title-badge">Google Sheets · iFrame</span>
             </div>
-            <p class="sheets-subtitle">Intégrez votre tableau de suivi Google Sheets directement dans l'interface. Renseignez l'URL de publication de votre document pour l'afficher.</p>
+            <p class="sheets-subtitle">Intégrez votre tableau de suivi Google Sheets directement dans l'interface.<br>Renseignez l'URL de publication de votre document pour l'afficher.</p>
           </div>
         </div>
         <div class="sheets-config">
@@ -252,6 +303,8 @@
   <!-- ── SCRIPTS ────────────────────────────────────────── -->
   <!-- Ordre : data → render → editor → utils → init -->
   <script src="js/data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/tree.js"></script>
   <script src="js/render.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/utils.js"></script>
