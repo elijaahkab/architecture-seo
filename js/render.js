@@ -184,7 +184,15 @@ function renderTable() {
 function updateStats() {
   const total = 2 + data.clusters.reduce((a, c) => a + c.pages.length, 0);
   const maxCluster = Math.max(...data.clusters.map(c => c.pages.length));
-  document.getElementById('stat-total').textContent = total;
+  const maxClusterObj = data.clusters.find(c => c.pages.length === maxCluster);
+
+  document.getElementById('stat-total').textContent    = total;
   document.getElementById('stat-clusters').textContent = data.clusters.length;
-  document.getElementById('stat-max').textContent = maxCluster;
+  document.getElementById('stat-max').textContent      = maxCluster;
+
+  // Couleur dynamique du plus grand cluster
+  if (maxClusterObj) {
+    const el = document.getElementById('stat-max');
+    if (el) el.style.color = maxClusterObj.hex || 'var(--metier)';
+  }
 }

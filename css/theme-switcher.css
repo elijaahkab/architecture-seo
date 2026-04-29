@@ -1,0 +1,164 @@
+/* =============================================================
+   Architecture SEO — Application Multi-Thématiques
+   css/theme-switcher.css  —  Sélecteur de thème dans le header
+   ============================================================= */
+
+/* ── WRAPPER DANS LE HEADER ──────────────────────────────── */
+#theme-selector-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* ── BOUTON PRINCIPAL ────────────────────────────────────── */
+.theme-selector {
+  position: relative;
+}
+
+.theme-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+.theme-selector-btn:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(58,92,245,.1);
+}
+
+.theme-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background .2s;
+}
+
+.theme-selector-chevron {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-left: 2px;
+  transition: transform .2s;
+  line-height: 1;
+}
+
+/* ── DROPDOWN ────────────────────────────────────────────── */
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 240px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  z-index: 300;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+body.dark .theme-dropdown {
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.theme-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ── OPTION ──────────────────────────────────────────────── */
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  cursor: pointer;
+  transition: background .12s;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.theme-option:last-of-type { border-bottom: none; }
+.theme-option:hover { background: var(--surface2); }
+.theme-option.active { background: var(--surface2); }
+
+.theme-option-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.theme-option-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+
+.theme-option-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: .05em;
+}
+
+.theme-option-check {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: auto;
+}
+
+/* ── BOUTON AJOUTER ──────────────────────────────────────── */
+.theme-option-add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background .12s;
+  border-top: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--text-dim);
+}
+.theme-option-add:hover {
+  background: var(--surface2);
+  color: var(--accent);
+}
+
+/* ── BADGE ACCENT DANS LE HEADER ─────────────────────────── */
+#theme-accent-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  transition: all .2s;
+}
+
+/* ── SÉPARATEUR HEADER ───────────────────────────────────── */
+.header-theme-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}

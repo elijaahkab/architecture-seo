@@ -12,6 +12,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/theme-switcher.css">
   <link rel="stylesheet" href="css/tree.css">
   <link rel="stylesheet" href="css/sheets.css">
 
@@ -40,44 +41,21 @@
   <!-- ── HEADER ─────────────────────────────────────────── -->
   <header>
     <div class="header-left">
-      <span class="badge">SEO</span>
-      <h1 id="doc-title" contenteditable="true" spellcheck="false">
-        Architecture SEO — Cluster Santé TNS
-      </h1>
+      <span class="badge" id="theme-accent-badge">SEO</span>
+      <div id="theme-selector-wrapper"></div>
+      <div class="header-theme-sep"></div>
     </div>
     <div class="header-actions">
-      <!-- Indicateur de sauvegarde -->
       <span class="save-indicator" id="save-indicator">● Sauvegardé</span>
       <div class="header-sep"></div>
-
-      <!-- Dark mode -->
-      <button class="btn-mode" id="btn-dark" onclick="toggleDark()"
-              title="Passer en mode sombre">
+      <button class="btn-mode" id="btn-dark" onclick="toggleDark()" title="Passer en mode sombre">
         <span id="mode-icon">🌙</span>
       </button>
-
       <div class="header-sep"></div>
-
-      <!-- Import JSON -->
-      <button class="btn btn-ghost" onclick="importJSON()" title="Importer un fichier JSON">
-        ↑ Importer JSON
-      </button>
-
-      <!-- Export JSON -->
-      <button class="btn btn-ghost" onclick="exportJSON()" title="Exporter en JSON">
-        ↓ Exporter JSON
-      </button>
-
+      <button class="btn btn-ghost" onclick="importJSON()">↑ Importer</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">↓ Exporter</button>
       <div class="header-sep"></div>
-
-      <!-- Réinitialiser -->
-      <button class="btn btn-ghost" onclick="resetStorage()"
-              title="Remettre les données d'origine"
-              style="color:var(--accent4);border-color:var(--accent4)">
-        ↺ Réinitialiser
-      </button>
-
-      <!-- Sauvegarder manuellement -->
+      <button class="btn btn-ghost" onclick="resetStorage()" style="color:var(--accent4);border-color:var(--accent4)">↺ Réinitialiser</button>
       <button class="btn btn-primary" onclick="saveManual()">Sauvegarder</button>
     </div>
   </header>
@@ -299,26 +277,26 @@
   <button id="btn-top" title="Remonter en haut">↑</button>
   <div class="toast" id="toast"></div>
 
-  <script src="js/sheets-iframe.js"></script>
   <!-- ── SCRIPTS ────────────────────────────────────────── -->
-  <!-- Ordre : data → render → editor → utils → init -->
-  <script src="js/data.js"></script>
+
+  <!-- ── SCRIPTS (ordre de chargement) ──────────── -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/sheets-iframe.js"></script>
   <script src="js/tree.js"></script>
   <script src="js/render.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/app.js"></script>
   <script>
-    // 1. Charge les données sauvegardées (localStorage)
-    loadFromStorage();
+    // Initialisation de l'application multi-thématiques
+    initApp();
 
-    // 2. Auto-save sur les blocs texte et le titre
+    // Auto-save
     document.getElementById('text-overview').addEventListener('input', scheduleAutoSave);
     document.getElementById('text-reading').addEventListener('input', scheduleAutoSave);
-    document.getElementById('doc-title').addEventListener('input', scheduleAutoSave);
-
-    // 3. Rendu initial
-    render();
+    const _titleEl = document.getElementById('doc-title');
+    if (_titleEl) _titleEl.addEventListener('input', scheduleAutoSave);
 
     // Sheets
     initSheetsIframe();
