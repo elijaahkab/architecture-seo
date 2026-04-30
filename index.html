@@ -12,6 +12,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/theme-switcher.css">
   <link rel="stylesheet" href="css/tree.css">
   <link rel="stylesheet" href="css/sheets.css">
@@ -33,6 +34,30 @@
       height: 20px;
       background: var(--border);
       align-self: center;
+    }
+
+    /* ── BOUTON RETOUR ACCUEIL ── */
+    .btn-go-home {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .06em;
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-go-home:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(58,92,245,.05);
     }
   </style>
 </head>
@@ -60,6 +85,11 @@
     </div>
   </header>
 
+  <!-- ── VUE ACCUEIL ────────────────────────────────────── -->
+  <div id="view-home" style="display:flex;flex-direction:column;min-height:calc(100vh - 69px)"></div>
+
+  <!-- ── VUE DASHBOARD ──────────────────────────────────── -->
+  <div id="view-dashboard" style="display:none">
   <!-- ── LAYOUT ─────────────────────────────────────────── -->
   <div class="layout">
 
@@ -264,6 +294,8 @@
     </main>
   </div>
 
+  </div><!-- /view-dashboard -->
+
   <!-- ── PANNEAU D'ÉDITION ──────────────────────────────── -->
   <div class="edit-panel" id="edit-panel">
     <div class="panel-title">
@@ -286,11 +318,13 @@
   <script src="js/render.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/home.js"></script>
   <script src="js/themes.js"></script>
   <script src="js/app.js"></script>
   <script>
-    // Initialisation de l'application multi-thématiques
+    // Initialisation de l'application
     initApp();
+    initHome();
 
     // Auto-save
     document.getElementById('text-overview').addEventListener('input', scheduleAutoSave);

@@ -782,7 +782,8 @@ body.dark #btn-top:hover {
 }
 
 
-/* ── CORRECTION SCROLL GLOBAL (pour btn-top) ────────────── */
+/* ── SCROLL : dashboard vs accueil ──────────────────────── */
+/* Par défaut (dashboard) : scroll dans .main uniquement    */
 html, body {
   height: 100%;
   overflow: hidden;
@@ -793,5 +794,16 @@ html, body {
 .main {
   overflow-y: auto;
   height: 100%;
+}
+
+/* Accueil : scroll naturel sur toute la page               */
+html.on-home,
+html.on-home body {
+  height: auto !important;
+  overflow: auto !important;
+  overflow-x: hidden !important;
+}
+html.on-home .layout {
+  height: auto !important;
 }
 

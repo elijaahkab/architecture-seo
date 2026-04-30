@@ -1,0 +1,436 @@
+/* =============================================================
+   Architecture SEO — Application Multi-Thématiques
+   css/home.css  —  Page d'accueil
+   ============================================================= */
+
+/* ── VUE D'ACCUEIL ───────────────────────────────────────── */
+#view-home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+  /* Le scroll se fait sur body quand on est sur l'accueil */
+}
+
+#view-dashboard {
+  display: none;
+}
+
+/* ── QUAND ON EST SUR L'ACCUEIL : body scrolle normalement ── */
+body.on-home {
+  overflow-y: auto;
+  height: auto;
+}
+
+/* Sur l'accueil, le layout ne doit pas contraindre la hauteur */
+body.on-home .layout {
+  display: none;
+}
+
+/* ── HEADER SUR L'ACCUEIL ─────────────────────────────────── */
+/* Header simplifié : seuls le logo/badge + mode sombre restent */
+body.on-home header {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: none;
+  position: absolute;
+  width: 100%;
+  z-index: 50;
+}
+
+body.on-home header .header-actions .save-indicator,
+body.on-home header .header-actions .header-sep,
+body.on-home header .header-actions .btn-ghost,
+body.on-home header .header-actions .btn-primary,
+body.on-home header #theme-selector-wrapper,
+body.on-home header .header-theme-sep {
+  display: none !important;
+}
+
+/* Garde uniquement le badge SEO et le dark mode */
+body.on-home header .header-left {
+  gap: 0;
+}
+
+body.on-home header .btn-mode {
+  opacity: .7;
+}
+body.on-home header .btn-mode:hover {
+  opacity: 1;
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.home-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 48px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 70vh;
+}
+
+/* Grille de fond subtile */
+.home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: .35;
+  pointer-events: none;
+}
+
+/* Halo central */
+.home-hero::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(58,92,245,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+body.dark .home-hero::after {
+  background: radial-gradient(ellipse, rgba(79,110,247,.12) 0%, transparent 70%);
+}
+
+.home-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── EYEBROW ─────────────────────────────────────────────── */
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(58,92,245,.08);
+  border: 1px solid rgba(58,92,245,.2);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 28px;
+}
+body.dark .home-eyebrow {
+  background: rgba(79,110,247,.12);
+  border-color: rgba(79,110,247,.3);
+}
+.home-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .5; transform: scale(.7); }
+}
+
+/* ── TITRE PRINCIPAL ─────────────────────────────────────── */
+.home-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .95;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.home-title-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 60%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── SUBTITLE ────────────────────────────────────────────── */
+.home-subtitle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 17px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 18px auto 0;
+}
+
+/* ── SÉPARATEUR HERO ─────────────────────────────────────── */
+.home-divider {
+  width: 64px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #7c3aed);
+  border-radius: 2px;
+  margin: 32px auto 0;
+  opacity: .5;
+}
+
+/* ── SECTION THÉMATIQUES ─────────────────────────────────── */
+.home-themes-section {
+  padding: 0 48px 64px;
+  flex: 1;
+}
+
+.home-themes-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.home-themes-label::before,
+.home-themes-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── GRILLE DES CARDS ────────────────────────────────────── */
+.home-themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ── CARD THÉMATIQUE ─────────────────────────────────────── */
+.home-theme-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  cursor: pointer;
+  transition: all .22s cubic-bezier(.25,.46,.45,.94);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Bande colorée en haut */
+.home-theme-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--accent));
+  transition: height .22s;
+}
+
+/* Halo de couleur en fond */
+.home-theme-card::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: var(--card-accent, var(--accent));
+  opacity: .04;
+  transition: opacity .22s, transform .22s;
+  pointer-events: none;
+}
+
+.home-theme-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-accent, var(--accent));
+  box-shadow: 0 12px 40px rgba(0,0,0,.1), 0 0 0 1px var(--card-accent, var(--accent));
+}
+body.dark .home-theme-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 0 1px var(--card-accent, var(--accent));
+}
+.home-theme-card:hover::before { height: 4px; }
+.home-theme-card:hover::after  { opacity: .07; transform: scale(1.1); }
+
+.home-theme-card:active { transform: translateY(-2px); }
+
+/* ── CARD HEADER ─────────────────────────────────────────── */
+.home-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.home-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  background: var(--card-accent-bg, rgba(58,92,245,.1));
+  border: 1px solid var(--card-accent-border, rgba(58,92,245,.2));
+  transition: transform .22s;
+}
+.home-theme-card:hover .home-card-icon {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.home-card-arrow {
+  font-size: 18px;
+  color: var(--text-dim);
+  transition: all .22s;
+  margin-top: 4px;
+}
+.home-theme-card:hover .home-card-arrow {
+  color: var(--card-accent, var(--accent));
+  transform: translate(3px, -3px);
+}
+
+/* ── CARD BODY ───────────────────────────────────────────── */
+.home-card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.home-card-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+/* ── CARD FOOTER ─────────────────────────────────────────── */
+.home-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.home-card-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.home-card-stat-val {
+  font-weight: 700;
+  color: var(--card-accent, var(--accent));
+}
+
+.home-card-stat-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.home-card-cta {
+  margin-left: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--card-accent, var(--accent));
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all .2s;
+}
+.home-theme-card:hover .home-card-cta {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── CARD "BIENTÔT" ──────────────────────────────────────── */
+.home-theme-card-soon {
+  opacity: .55;
+  cursor: default;
+  border-style: dashed;
+}
+.home-theme-card-soon:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border);
+}
+.home-theme-card-soon::before { display: none; }
+
+/* ── FOOTER PAGE D'ACCUEIL ───────────────────────────────── */
+.home-footer {
+  padding: 20px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.home-footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: -.01em;
+}
+
+.home-footer-info {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── HEADER SUR PAGE D'ACCUEIL ───────────────────────────── */
+header.on-home .theme-selector-btn {
+  pointer-events: none;
+  opacity: .5;
+}
+
+/* ── TRANSITION ENTRE VUES ───────────────────────────────── */
+.view-fade-in {
+  animation: fadeInUp .28s cubic-bezier(.25,.46,.45,.94) both;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .home-hero        { padding: 48px 24px 40px; }
+  .home-themes-section { padding: 0 24px 48px; }
+  .home-themes-grid { grid-template-columns: 1fr; }
+  .home-title       { font-size: 48px; }
+  .home-footer      { padding: 16px 24px; }
+}
