@@ -427,3 +427,42 @@ body.dark .tree-badge-mere {
 .tree-body::-webkit-scrollbar-track { background: transparent; }
 .tree-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .tree-body::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ── BOUTON ÉTUDES SÉMANTIQUES ───────────────────────────── */
+.tree-legend-cta {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.tree-legend-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.tree-legend-cta-btn:hover {
+  border-color: #0f9d58;
+  color: #0f9d58;
+  background: rgba(15,157,88,.06);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(15,157,88,.15);
+}
+.tree-legend-cta-btn .cta-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}

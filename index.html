@@ -211,7 +211,7 @@
               <div class="tree-topbar-dot" style="background:#febc2e"></div>
               <div class="tree-topbar-dot" style="background:#28c840"></div>
             </div>
-            <span class="tree-topbar-label">Arborescence — Cluster Santé TNS</span>
+            <span class="tree-topbar-label" id="tree-topbar-label">Arborescence — Cluster Santé TNS</span>
           </div>
 
           <!-- Corps : arborescence + légende -->
@@ -323,7 +323,12 @@
   <script src="js/app.js"></script>
   <script>
     // Initialisation de l'application
+    // 1. initApp prépare window.data sans déclencher de navigation
     initApp();
+    // 2. render() peuple le DOM (sidebar, clusters, tableau) sans l'afficher
+    //    Le dashboard est dans #view-dashboard qui est display:none par défaut
+    render();
+    // 3. initHome décide d'afficher accueil ou dashboard selon localStorage
     initHome();
 
     // Auto-save

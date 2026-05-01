@@ -93,6 +93,15 @@ function renderTree() {
 
   html += `</div>`;
   container.innerHTML = html;
+
+  // Met à jour le label de la topbar avec le nom du thème actif
+  const topbarLabel = document.getElementById('tree-topbar-label');
+  if (topbarLabel) {
+    const activeTheme = (typeof getActiveTheme === 'function') ? getActiveTheme() : null;
+    const themeName   = activeTheme ? activeTheme.label : 'Cluster';
+    topbarLabel.textContent = `Arborescence — ${themeName}`;
+  }
+
   renderTreeLegend();
 }
 
@@ -163,6 +172,14 @@ function renderTreeLegend() {
         <span class="tree-legend-stat-label">Total (hub+mère)</span>
         <span class="tree-legend-stat-value" style="color:var(--text-muted)">${total}</span>
       </div>
+    </div>
+    <div class="tree-legend-cta">
+      <a class="tree-legend-cta-btn"
+         href="https://b1envenue.sharepoint.com/:x:/r/sites/Team3D-Acquisitiondigitale/Documents%20partages/SEO/Contenu/Etudes%20s%C3%A9mantiques%20MH.xlsx?d=w9a4cf34a1fbd41529ce3109cb03ccc9d&csf=1&web=1&e=uOhjKk"
+         target="_blank" rel="noopener noreferrer">
+        <span class="cta-icon">📊</span>
+        Études sémantiques
+      </a>
     </div>`;
 
   legend.innerHTML = html;

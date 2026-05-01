@@ -5,6 +5,7 @@
 
 const APP_THEME_KEY  = 'architecture-seo:active-theme';
 const APP_THEMES_KEY = 'architecture-seo:themes-overrides';
+const APP_VIEW_KEY   = 'architecture-seo:active-view'; // 'home' | themeId
 
 /* ── THÈME ACTIF (proxy global `data`) ───────────────────── */
 // Toutes les fonctions existantes lisent `data` → on le remplace
@@ -31,8 +32,11 @@ function applyActiveTheme(themeId) {
   // Met à jour BASE_MUTUELLE (utilisé dans editor.js pour les nouveaux slugs)
   window.BASE_MUTUELLE = theme.mere.href.replace(/\/$/, '');
 
-  // Persiste le choix
-  try { localStorage.setItem(APP_THEME_KEY, themeId); } catch(e) {}
+  // Persiste le choix du thème ET de la vue
+  try {
+    localStorage.setItem(APP_THEME_KEY, themeId);
+    localStorage.setItem(APP_VIEW_KEY, themeId);
+  } catch(e) {}
 
   // Met à jour le header
   updateThemeHeader(themeId);
@@ -176,6 +180,9 @@ function switchTheme(themeId) {
 
   setTimeout(() => {
     applyActiveTheme(themeId);
+    // Scroll en haut du dashboard lors du switch
+    const main = document.querySelector('.main');
+    if (main) main.scrollTo({ top: 0, behavior: 'instant' });
     if (main) {
       main.style.opacity = '1';
       main.style.transform = 'translateY(0)';
@@ -237,17 +244,30 @@ function scheduleAutoSaveWithTheme() {
 function initApp() {
   // Charge le dernier thème utilisé
   let savedTheme = 'tns';
-  try { savedTheme = localStorage.getItem(APP_THEME_KEY) || 'tns'; } catch(e) {}
+  let savedView  = 'home';
+  try {
+    savedTheme = localStorage.getItem(APP_THEME_KEY) || 'tns';
+    savedView  = localStorage.getItem(APP_VIEW_KEY)  || 'home';
+  } catch(e) {}
   if (!THEMES[savedTheme]) savedTheme = 'tns';
+  if (!THEMES[savedView] && savedView !== 'home') savedView = 'home';
 
   // Construit le sélecteur dans le header
   buildThemeSelector();
 
-  // Active le thème
-  applyActiveTheme(savedTheme);
+  // Active le thème (sans déclencher la navigation — initHome le fera)
+  _activeThemeId = savedTheme;
+  const overrides = getThemeOverrides(savedTheme);
+  const theme     = THEMES[savedTheme];
+  window.data = buildDataFromTheme(theme, overrides);
+  window.BASE_MUTUELLE = theme.mere.href.replace(/\/$/, '');
+  updateThemeTexts(theme, overrides);
+  updateThemeHeader(savedTheme);
 
-  // Patch auto-save pour qu'il sauvegarde aussi par thème
-  document.getElementById('text-overview')?.addEventListener('input', saveCurrentThemeState);
-  document.getElementById('text-reading')?.addEventListener('input',  saveCurrentThemeState);
-  document.getElementById('doc-title')?.addEventListener('input',     saveCurrentThemeState);
+  // Mémorise la vue à restaurer pour que initHome puisse la lire
+  // null = jamais ouvert → undefined → initHome ira sur l'accueil
+  // 'home' = accueil explicitement sauvegardé → accueil
+  // themeId = dashboard explicitement sauvegardé → dashboard
+  const rawView = localStorage.getItem(APP_VIEW_KEY);
+  window._savedView = rawView; // null si première ouverture, 'home' ou themeId sinon
 }

@@ -8,12 +8,10 @@ const THEME_META = {
   tns: {
     icon: '🏥',
     desc: 'Architecture SEO du cluster Mutuelle TNS — couverture des intentions informationnelles, comparatives et commerciales pour les travailleurs non-salariés.',
-    hub: '/independants/',
   },
   ae: {
     icon: '🏠',
     desc: 'Architecture SEO du cluster Assurance Emprunteur — cadres légaux, profils emprunteurs, types de prêts, risques santé et gestion de contrat.',
-    hub: '/particuliers/',
   }
 };
 
@@ -38,15 +36,12 @@ function renderHome() {
            onclick="openTheme('${id}')"
            role="button" tabindex="0"
            onkeydown="if(event.key==='Enter')openTheme('${id}')">
-
         <div class="home-card-header">
           <div class="home-card-icon">${meta.icon}</div>
           <span class="home-card-arrow">↗</span>
         </div>
-
         <div class="home-card-name">${theme.label}</div>
         <div class="home-card-desc">${meta.desc}</div>
-
         <div class="home-card-footer">
           <div class="home-card-stat">
             <span class="home-card-stat-val">${total}</span>
@@ -68,7 +63,6 @@ function renderHome() {
   }).join('');
 
   homeView.innerHTML = `
-    <!-- Hero -->
     <div class="home-hero">
       <div class="home-hero-inner">
         <div class="home-eyebrow">
@@ -86,21 +80,14 @@ function renderHome() {
         <div class="home-divider"></div>
       </div>
     </div>
-
-    <!-- Thématiques -->
     <div class="home-themes-section">
       <div class="home-themes-label">Thématiques disponibles</div>
-      <div class="home-themes-grid">
-        ${cards}
-      </div>
+      <div class="home-themes-grid">${cards}</div>
     </div>
-
-    <!-- Footer -->
     <div class="home-footer">
       <span class="home-footer-brand">Architecture SEO</span>
       <span class="home-footer-info">${THEMES_ORDER.length} thématique${THEMES_ORDER.length > 1 ? 's' : ''} · ${THEMES_ORDER.reduce((a,id) => a + 2 + THEMES[id].clusters.reduce((b,c)=>b+c.pages.length,0), 0)} pages indexées</span>
-    </div>
-  `;
+    </div>`;
 }
 
 /* ── NAVIGATION ──────────────────────────────────────────── */
@@ -108,32 +95,43 @@ function showHome() {
   const homeView = document.getElementById('view-home');
   const dashView = document.getElementById('view-dashboard');
   const btnHome  = document.getElementById('btn-go-home');
+  const btnTop   = document.getElementById('btn-top');
 
-  if (homeView) {
-    homeView.style.display = 'flex';
-    homeView.classList.add('view-fade-in');
-  }
-  if (dashView) dashView.style.display = 'none';
+  if (homeView) { homeView.style.display = 'flex'; homeView.classList.add('view-fade-in'); }
+  if (dashView)   dashView.style.display = 'none';
 
-  // Classe sur body pour les overrides CSS
   document.body.classList.add('on-home');
   document.documentElement.classList.add('on-home');
 
-  // Cache le bouton retour
   if (btnHome) btnHome.style.display = 'none';
 
-  // Scroll en haut (le body scrolle sur l'accueil)
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  // Persiste la vue
+  try { localStorage.setItem('architecture-seo:active-view', 'home'); } catch(e) {}
 
+  window.scrollTo({ top: 0, behavior: 'instant' });
   document.title = 'Architecture SEO';
+
+  // Back-to-top sur l'accueil : écoute window.scroll
+  if (btnTop) {
+    btnTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    const onHomeScroll = () => {
+      if (!document.documentElement.classList.contains('on-home')) {
+        window.removeEventListener('scroll', onHomeScroll);
+        return;
+      }
+      btnTop.classList.toggle('visible', window.scrollY > 300);
+    };
+    window.addEventListener('scroll', onHomeScroll);
+  }
 }
 
 function openTheme(themeId) {
   const homeView = document.getElementById('view-home');
   const dashView = document.getElementById('view-dashboard');
   const btnHome  = document.getElementById('btn-go-home');
+  const btnTop   = document.getElementById('btn-top');
+  const main     = document.querySelector('.main');
 
-  // Cache accueil, montre dashboard
   if (homeView) homeView.style.display = 'none';
   if (dashView) {
     dashView.style.display = 'block';
@@ -142,13 +140,16 @@ function openTheme(themeId) {
     dashView.classList.add('view-fade-in');
   }
 
-  // Retire la classe on-home → le layout reprend son comportement normal
   document.body.classList.remove('on-home');
   document.documentElement.classList.remove('on-home');
 
   if (btnHome) btnHome.style.display = 'flex';
 
-  // Switch thème si nécessaire
+  // Rebrancher back-to-top sur .main
+  if (btnTop && main) {
+    btnTop.onclick = () => main.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   if (themeId !== _activeThemeId) {
     switchTheme(themeId);
   } else {
@@ -156,20 +157,19 @@ function openTheme(themeId) {
     updateThemeHeader(themeId);
   }
 
-  // Scroll en haut dans .main
-  const main = document.querySelector('.main');
+  // Scroll en haut immédiatement
   if (main) main.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 /* ── INIT HOME ───────────────────────────────────────────── */
 function initHome() {
-  // Ajoute le bouton "← Accueil" dans le header
+  // Bouton ← Accueil
   const headerLeft = document.querySelector('.header-left');
   if (headerLeft && !document.getElementById('btn-go-home')) {
     const btn = document.createElement('button');
     btn.id        = 'btn-go-home';
     btn.className = 'btn-go-home';
-    btn.title     = 'Retour à l\'accueil';
+    btn.title     = "Retour à l'accueil";
     btn.innerHTML = '← Accueil';
     btn.onclick   = () => showHome();
     btn.style.display = 'none';
@@ -179,8 +179,18 @@ function initHome() {
   // Génère la page d'accueil
   renderHome();
 
-  // Démarre sur l'accueil — classe body immédiate
-  document.body.classList.add('on-home');
-  document.documentElement.classList.add('on-home');
-  showHome();
+  // Décision de vue :
+  // - savedView = themeId  → l'utilisateur rafraîchit un dashboard → y rester
+  // - savedView = 'home'   → accueil explicitement sauvegardé → accueil
+  // - savedView absent     → première ouverture → TOUJOURS accueil
+  const savedView = window._savedView;
+  const wasOnDashboard = savedView && savedView !== 'home' && THEMES[savedView];
+
+  if (wasOnDashboard) {
+    openTheme(savedView);
+  } else {
+    document.body.classList.add('on-home');
+    document.documentElement.classList.add('on-home');
+    showHome();
+  }
 }
