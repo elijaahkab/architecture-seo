@@ -750,6 +750,125 @@ body.dark .home-navbar {
   color: var(--text);
 }
 
+
+/* ── MENU DÉROULANT THÉMATIQUES ─────────────────────────── */
+.home-navbar-dropdown {
+  position: relative;
+}
+
+.home-navbar-dropdown-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all .15s;
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.home-navbar-dropdown-btn:hover,
+.home-navbar-dropdown.open .home-navbar-dropdown-btn {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.home-navbar-dropdown-chevron {
+  font-size: 9px;
+  transition: transform .2s;
+  opacity: .6;
+}
+.home-navbar-dropdown.open .home-navbar-dropdown-chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.home-navbar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  z-index: 300;
+}
+body.dark .home-navbar-dropdown-menu {
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.home-navbar-dropdown.open .home-navbar-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.home-navbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .12s;
+  text-align: left;
+}
+.home-navbar-dropdown-item:last-child {
+  border-bottom: none;
+}
+.home-navbar-dropdown-item:hover {
+  background: var(--surface2);
+}
+
+.home-navbar-dd-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.home-navbar-dd-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.home-navbar-dd-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.home-navbar-dd-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: .04em;
+}
+.home-navbar-dd-arrow {
+  font-size: 12px;
+  color: var(--text-dim);
+  transition: all .15s;
+}
+.home-navbar-dropdown-item:hover .home-navbar-dd-arrow {
+  color: var(--accent);
+  transform: translate(2px, -2px);
+}
+
 /* Pas besoin de décaler le hero — navbar sticky dans le flux */
 body.on-home #view-home .home-hero {
   padding-top: 80px;

@@ -3,6 +3,35 @@
    js/home.js  —  Page d'accueil, À propos & navigation
    ============================================================= */
 
+
+/* ── MENU DÉROULANT THÉMATIQUES ─────────────────────────── */
+function toggleNavDropdown(e) {
+  e.stopPropagation();
+  const dd  = document.getElementById('nav-themes-dropdown');
+  const btn = dd ? dd.querySelector('.home-navbar-dropdown-btn') : null;
+  if (!dd) return;
+  const isOpen = dd.classList.toggle('open');
+  if (btn) btn.setAttribute('aria-expanded', String(isOpen));
+}
+
+function openThemeFromNav(themeId) {
+  // Ferme le dropdown
+  const dd = document.getElementById('nav-themes-dropdown');
+  if (dd) dd.classList.remove('open');
+  // Ouvre la thématique
+  openTheme(themeId);
+}
+
+// Ferme le dropdown en cliquant ailleurs
+document.addEventListener('click', function() {
+  const dd = document.getElementById('nav-themes-dropdown');
+  if (dd && dd.classList.contains('open')) {
+    dd.classList.remove('open');
+    const btn = dd.querySelector('.home-navbar-dropdown-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+});
+
 /* ── SYNC DARK MODE ICON NAVBAR HOME ─────────────────────── */
 function _syncHomeNavbarDark() {
   const isDark = document.body.classList.contains('dark');
@@ -82,6 +111,34 @@ function renderHome() {
       </div>
       <div class="home-navbar-nav">
         <span class="home-navbar-link active">Accueil</span>
+
+        <!-- Menu déroulant Thématiques -->
+        <div class="home-navbar-dropdown" id="nav-themes-dropdown">
+          <button class="home-navbar-dropdown-btn"
+                  onclick="toggleNavDropdown(event)"
+                  aria-haspopup="true" aria-expanded="false">
+            Thématiques
+            <span class="home-navbar-dropdown-chevron">▾</span>
+          </button>
+          <div class="home-navbar-dropdown-menu" role="menu">
+            ${THEMES_ORDER.map(id => {
+              const t = THEMES[id];
+              const meta = THEME_META[id] || { icon: '📁' };
+              const total = 2 + t.clusters.reduce((a,c) => a + c.pages.length, 0);
+              return `
+            <button class="home-navbar-dropdown-item"
+                    onclick="openThemeFromNav('${id}')" role="menuitem">
+              <span class="home-navbar-dd-dot" style="background:${t.accentColor}"></span>
+              <div class="home-navbar-dd-info">
+                <span class="home-navbar-dd-name">${t.label}</span>
+                <span class="home-navbar-dd-count">${total} pages · ${t.clusters.length} clusters</span>
+              </div>
+              <span class="home-navbar-dd-arrow">↗</span>
+            </button>`;
+            }).join('')}
+          </div>
+        </div>
+
         <button class="home-navbar-link" onclick="showAbout()">À propos</button>
       </div>
       <div class="home-navbar-actions">
@@ -235,6 +292,46 @@ function renderAbout() {
   _syncHomeNavbarDark();
 }
 
+/* ── GESTION CENTRALISÉE DU BOUTON BACK-TO-TOP ───────────── */
+// context : 'home' | 'about' | 'dashboard'
+// scrollEl : élément scrollant (window ou .main)
+let _btnTopScrollHandler = null;
+
+function _setupBtnTop(context, mainEl) {
+  const btnTop = document.getElementById('btn-top');
+  if (!btnTop) return;
+
+  // 1. Masque immédiatement
+  btnTop.classList.remove('visible');
+
+  // 2. Retire l'ancien listener s'il existe
+  if (_btnTopScrollHandler) {
+    window.removeEventListener('scroll', _btnTopScrollHandler);
+    if (_btnTopScrollHandler._target) {
+      _btnTopScrollHandler._target.removeEventListener('scroll', _btnTopScrollHandler);
+    }
+    _btnTopScrollHandler = null;
+  }
+
+  if (context === 'dashboard' && mainEl) {
+    // Scroll sur .main
+    btnTop.onclick = () => mainEl.scrollTo({ top: 0, behavior: 'smooth' });
+    _btnTopScrollHandler = function() {
+      btnTop.classList.toggle('visible', mainEl.scrollTop > 300);
+    };
+    _btnTopScrollHandler._target = mainEl;
+    mainEl.addEventListener('scroll', _btnTopScrollHandler);
+
+  } else if (context === 'home' || context === 'about') {
+    // Scroll sur window
+    btnTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    _btnTopScrollHandler = function() {
+      btnTop.classList.toggle('visible', window.scrollY > 300);
+    };
+    window.addEventListener('scroll', _btnTopScrollHandler);
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════
    NAVIGATION
    ═══════════════════════════════════════════════════════════ */
@@ -261,17 +358,8 @@ function showHome() {
   window.scrollTo({ top: 0, behavior: 'instant' });
   document.title = 'Architect-SEO — Plateforme SEO Malakoff Humanis';
 
-  if (btnTop) {
-    btnTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-    const onScroll = () => {
-      if (!document.documentElement.classList.contains('on-home')) {
-        window.removeEventListener('scroll', onScroll);
-        return;
-      }
-      btnTop.classList.toggle('visible', window.scrollY > 300);
-    };
-    window.addEventListener('scroll', onScroll);
-  }
+  // btn-top : masque immédiatement, rebranché sur window.scroll
+  _setupBtnTop('home');
 }
 
 function showAbout() {
@@ -297,6 +385,7 @@ function showAbout() {
 
   window.scrollTo({ top: 0, behavior: 'instant' });
   document.title = 'À propos — Architect-SEO';
+  _setupBtnTop('about');
   _syncHomeNavbarDark();
 }
 
@@ -322,9 +411,8 @@ function openTheme(themeId) {
 
   if (btnHome) btnHome.style.display = 'flex';
 
-  if (btnTop && main) {
-    btnTop.onclick = () => main.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // btn-top rebranché sur .main, caché immédiatement
+  _setupBtnTop('dashboard', main);
 
   if (themeId !== _activeThemeId) {
     switchTheme(themeId);
