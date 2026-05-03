@@ -140,6 +140,7 @@ function renderHome() {
         </div>
 
         <button class="home-navbar-link" onclick="showAbout()">À propos</button>
+        <a class="home-navbar-link" href="mailto:elie.kabongo@malakoffhumanis.com">Contact</a>
       </div>
       <div class="home-navbar-actions">
         <button class="home-dark-btn" onclick="toggleDark()" title="Changer le thème">
@@ -209,9 +210,12 @@ function renderAbout() {
     <nav class="about-navbar">
       <button class="about-back" onclick="showHome()">← Retour à l'accueil</button>
       <span class="home-navbar-logo" style="position:absolute;left:50%;transform:translateX(-50%)">Architect<span>-SEO</span></span>
-      <button class="home-dark-btn" onclick="toggleDark()" title="Changer le thème">
-        <span id="mode-icon-about">🌙</span>
-      </button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <a class="home-navbar-link" href="mailto:elie.kabongo@malakoffhumanis.com">Contact</a>
+        <button class="home-dark-btn" onclick="toggleDark()" title="Changer le thème">
+          <span id="mode-icon-about">🌙</span>
+        </button>
+      </div>
     </nav>
 
     <div class="about-hero">
@@ -323,16 +327,12 @@ function _setupBtnTop(context, mainEl) {
     mainEl.addEventListener('scroll', _btnTopScrollHandler);
 
   } else if (context === 'home' || context === 'about') {
-    // Scroll sur window — requestAnimationFrame assure que html.on-home
-    // est appliqué (overflow: auto) avant de brancher le listener
+    // Scroll sur window
     btnTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
     _btnTopScrollHandler = function() {
       btnTop.classList.toggle('visible', window.scrollY > 300);
     };
-    requestAnimationFrame(() => {
-      window.addEventListener('scroll', _btnTopScrollHandler);
-      btnTop.classList.toggle('visible', window.scrollY > 300);
-    });
+    window.addEventListener('scroll', _btnTopScrollHandler);
   }
 }
 
