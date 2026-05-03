@@ -323,12 +323,16 @@ function _setupBtnTop(context, mainEl) {
     mainEl.addEventListener('scroll', _btnTopScrollHandler);
 
   } else if (context === 'home' || context === 'about') {
-    // Scroll sur window
+    // Scroll sur window — requestAnimationFrame assure que html.on-home
+    // est appliqué (overflow: auto) avant de brancher le listener
     btnTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
     _btnTopScrollHandler = function() {
       btnTop.classList.toggle('visible', window.scrollY > 300);
     };
-    window.addEventListener('scroll', _btnTopScrollHandler);
+    requestAnimationFrame(() => {
+      window.addEventListener('scroll', _btnTopScrollHandler);
+      btnTop.classList.toggle('visible', window.scrollY > 300);
+    });
   }
 }
 

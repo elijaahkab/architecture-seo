@@ -348,17 +348,8 @@
     // Sheets
     initSheetsIframe();
 
-    // 4. Bouton retour en haut
-    (function() {
-      const btn  = document.getElementById('btn-top');
-      const main = document.querySelector('.main');
-      main.addEventListener('scroll', function() {
-        btn.classList.toggle('visible', main.scrollTop > 300);
-      });
-      btn.onclick = function() {
-        main.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-    })();
+    // Le bouton back-to-top est géré intégralement par _setupBtnTop() dans home.js
+    // (appelé par showHome / showAbout / openTheme selon le contexte de scroll)
 
   </script>
 
